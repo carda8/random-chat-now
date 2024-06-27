@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import NavLinks from "./components/navigationBar/navigation-bar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,12 +12,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className}`}>
+        <div className="flex justify-center min-h-screen">
+          {/* <div className="flex flex-1 flex-col justify-center items-center lg:border-x max-w-screen-lg relative"> */}
+          <div className="flex flex-1 flex-col max-w-screen-lg lg:border-x relative">
+            <header>
+              <NavLinks />
+            </header>
+            {children}
+            {modal}
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
