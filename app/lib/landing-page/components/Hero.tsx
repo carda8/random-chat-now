@@ -13,6 +13,7 @@ export default function Hero() {
   const [agreement, setAgreement] = useState("");
 
   const onPressChatNow = () => {
+    console.log("pressed");
     if (agreement) router.push("/chat");
     else router.push("/agreement");
   };
