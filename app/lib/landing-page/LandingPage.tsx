@@ -12,7 +12,7 @@ import Highlights from "./components/Highlights";
 import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 import getLPTheme from "./getLPTheme";
-import ThemeProviderWrapper from "../components/themeProvider";
+import ThemeProviderWrapper from "../themeProvider";
 
 interface ToggleCustomThemeProps {
   showCustomTheme: Boolean;
