@@ -23,15 +23,17 @@ export default function NavLinks() {
 
   useEffect(() => {
     const res = getLocalStorageAgreement();
+    console.log("res", res);
     if (res) setAgreement("true");
   }, []);
 
   return pathname === "/agreement" ||
     pathname === "/agreement/privacy" ||
+    pathname === "/chat" ||
     pathname === "/agreement/terms" ? (
     <></>
   ) : (
-    <div className="flex flex-col max-w-screen-lg bg-primary border-b">
+    <div className="flex flex-col max-w-screen-lg bg-primary border-t shadow-inner">
       <div className="flex flex-1 min-h-12">
         {links.map((link) => {
           const LinkIcon = link.icon;
@@ -40,7 +42,7 @@ export default function NavLinks() {
               key={link.name}
               href={agreement === "true" ? link.href : "/agreement"}
               className={`${
-                pathname === link.href ? "bg-secondary10 shadow-xl" : ""
+                pathname === link.href ? "bg-secondary10" : ""
               } flex flex-1 justify-center items-center `}
             >
               <LinkIcon

@@ -10,11 +10,11 @@ import React, {
 import { IoIosSend, IoMdExit, IoMdPerson, IoMdRefresh } from "react-icons/io";
 import { Message, useChatStore } from "../store/chatStore";
 import { CircularProgress } from "@mui/material";
-import { useRouter } from "next/router";
 import { throttle } from "lodash";
 import { client } from "../lib/io";
 import ThemeProviderWrapper from "../lib/themeProvider";
 import { GradientCircularProgress } from "../lib/landing-page/components/Hero";
+import { useRouter } from "next/navigation";
 
 const MAX_CALLS = 5;
 const TIME_FRAME = 2000; // 2 seconds
@@ -36,6 +36,7 @@ export default function Page() {
     updateIsInputDisabled,
     reset,
   } = useChatStore((state) => state);
+  const router = useRouter();
 
   const [callCount, setCallCount] = useState(0);
   const [lastReset, setLastReset] = useState(Date.now());
@@ -143,6 +144,10 @@ export default function Page() {
     reset();
   };
 
+  const handleonPressBack = () => {
+    router.replace("/");
+  };
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -158,7 +163,15 @@ export default function Page() {
       <CircularProgress />
     </div>
   ) : (
-    <>
+    <div className="flex flex-col flex-1 max-h-screen">
+      {!client.active && (
+        <div className="w-full min-h-20 flex items-center justify-end p-4 border-b">
+          <button type="button" onClick={handleonPressBack}>
+            <IoMdExit size={30} className="text-darkGray" />
+          </button>
+        </div>
+      )}
+
       {/* 상대 유저 정보 */}
       {client.active && (
         <div className="flex flex-col min-h-20 max-w-screen-lg bg-primary border-b justify-center px-4">
@@ -191,16 +204,14 @@ export default function Page() {
       )}
 
       {!client.active && (
-        <div className="flex flex-1 justify-center items-center">
-          <div className="self-center">
-            <ThemeProviderWrapper>
-              <GradientCircularProgress
-                title="Touch"
-                subTitle="to find"
-                onPress={handleFindUser}
-              />
-            </ThemeProviderWrapper>
-          </div>
+        <div className="flex flex-1 justify-center items-center mt-36">
+          <ThemeProviderWrapper>
+            <GradientCircularProgress
+              title="Touch"
+              subTitle="to find"
+              onPress={handleFindUser}
+            />
+          </ThemeProviderWrapper>
         </div>
       )}
 
@@ -275,6 +286,6 @@ export default function Page() {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 }

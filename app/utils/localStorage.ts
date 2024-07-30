@@ -5,7 +5,10 @@ const setLocalStorageAgreement = (value: "true" | "false") => {
 };
 
 const getLocalStorageAgreement = () => {
-  if (typeof window !== undefined) return localStorage.getItem(AGREEMENT);
+  if (typeof window !== undefined) {
+    const res = localStorage.getItem(AGREEMENT);
+    return res && res === "true" ? "true" : "false";
+  }
 };
 
 export { setLocalStorageAgreement, getLocalStorageAgreement };

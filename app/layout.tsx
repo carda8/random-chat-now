@@ -22,12 +22,13 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <div className="flex justify-center min-h-screen">
           {/* <div className="flex flex-1 flex-col justify-center items-center lg:border-x max-w-screen-lg relative"> */}
+
           <div className="flex flex-1 flex-col max-w-screen-lg lg:border-x relative">
-            <header>
-              <NavLinks />
-            </header>
-            {children}
+            <div className="flex flex-1 flex-col">{children}</div>
             {modal}
+            <nav>
+              <NavLinks />
+            </nav>
           </div>
         </div>
       </body>

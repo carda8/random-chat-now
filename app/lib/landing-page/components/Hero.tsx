@@ -7,20 +7,22 @@ import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getLocalStorageAgreement } from "@/app/utils/localStorage";
+import { useUserStore } from "@/app/store/userStore";
 
 export default function Hero() {
   const router = useRouter();
-  const [agreement, setAgreement] = useState("");
+  const { agreement, updateAgreement } = useUserStore((state) => state);
 
   const onPressChatNow = () => {
-    // console.log("pressed");
+    console.log("pressed", agreement);
     if (agreement) router.push("/chat");
     else router.push("/agreement");
   };
 
   useEffect(() => {
     const res = getLocalStorageAgreement();
-    if (res) setAgreement(res);
+    if (res) updateAgreement(res);
+    if (res === "false") router.replace("/agreement");
   }, []);
 
   return (
@@ -85,74 +87,14 @@ export default function Hero() {
           >
             Say goodbye to barriers and hello to stranger
           </Typography>
-          {/* Welcome to ChatBox, the ultimate ramdom chat for seamless and
-          worry-free communication.  */}
-          {/* <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={1}
-            useFlexGap
-            sx={{ pt: 2, width: { xs: "100%", sm: "auto" } }}
-          >
-            <InputLabel htmlFor="email-hero" sx={visuallyHidden}>
-              Email
-            </InputLabel>
-            <TextField
-              id="email-hero"
-              hiddenLabel
-              size="small"
-              variant="outlined"
-              aria-label="Enter your email address"
-              placeholder="Your email address"
-              autoComplete="off"
-            />
-
-            <Button color="primary">Start now</Button>
-          </Stack> */}
-
+          <div className="h-12"></div>
           <GradientCircularProgress onPress={onPressChatNow} />
-
-          {/* <Typography
-            className="text-secondary"
-            variant="caption"
-            sx={{ textAlign: "center" }}
-          >
-            By clicking &quot;Chat now&quot; you agree to our&nbsp;
-            <Link href="setting/termsOfUse">
-              <span className="text-blue">Terms & Conditions</span>
-            </Link>
-            .
-          </Typography> */}
         </Stack>
-        {/* <div className="w-full h-60 border border-[#bfc8d987] rounded-xl shadow-xl shadow-[#BFC8D933] mt-8"></div> */}
-        {/* <StyledBox id="image">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={1}
-            useFlexGap
-            sx={{ pt: 2, width: { xs: "100%", sm: "auto" } }}
-          >
-            <InputLabel htmlFor="email-hero" sx={visuallyHidden}>
-              Email
-            </InputLabel>
-            <TextField
-              id="email-hero"
-              hiddenLabel
-              size="small"
-              variant="outlined"
-              aria-label="Enter your email address"
-              placeholder="Your email address"
-              autoComplete="off"
-            />
-
-            <Button color="primary">Send</Button>
-          </Stack>
-        </StyledBox> */}
       </Container>
     </Box>
   );
 }
 
-// From https://github.com/mui/material-ui/issues/9496#issuecomment-959408221
 export function GradientCircularProgress({
   title,
   subTitle,
